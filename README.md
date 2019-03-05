@@ -34,4 +34,4 @@ $(document).ready(function(){
 ```
 On error an alert will be thrown with the response from the server
 
-
+![alt text](https://raw.githubusercontent.com/061375/Python-Basic-Server/master/images/p-server-screen.jpg)
