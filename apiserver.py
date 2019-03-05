@@ -156,7 +156,14 @@ class MyServer(ApiServer):
             try:
                 method = req["method"]
                 result = globals()[method[0]](req)
-                return '{"success":1,"message":"'+result+'"}'
+                _return = {}
+                if False == result:
+                    _return["success"] = 0
+                    _return["error"] = "An error occured"
+                else:
+                    _return["success"] = 1
+                    _return["message"] = result
+                return json.dumps(_return)
             except Exception as e:
                 raise ApiError(500, str(e))
 
