@@ -1,0 +1,57 @@
+/** 
+ * Some common mixins
+ * */
+/**  
+ * a wrapper for transitions
+ * @param string $s a float point number in second(s) - default .6s
+ * */
+/** 
+ * media query break wrapper
+ * @param string $width - 768px
+ * */
+/** 
+ * wrapper to export common browser prefix for backward compatability
+ * @param array $declarations the list of styles
+ * @param list $prefixes list of prefixes to use
+ * */
+/** 
+ * wrapper for keyframe animations
+ * @param string name of the animation
+ * */
+/** 
+ * force not allow mouse selection of wrapped text
+ * */
+/* line 3, ../working/sass/style.scss */
+body {
+  background: blue;
+  font-family: Helvetica; }
+
+/* line 7, ../working/sass/style.scss */
+#container {
+  width: 30vw;
+  margin: 10vh auto;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 5px 10px #000; }
+
+/* line 15, ../working/sass/style.scss */
+input {
+  float: left;
+  font-size: 20px;
+  width: 80%; }
+
+/* line 20, ../working/sass/style.scss */
+button {
+  float: left;
+  background: red;
+  color: yellow;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 2px; }
+
+/* line 28, ../working/sass/style.scss */
+.clearfix:after {
+  content: ' ';
+  clear: both;
+  display: block; }

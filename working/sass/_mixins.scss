@@ -1,0 +1,64 @@
+/** 
+ * Some common mixins
+ * */
+
+/**  
+ * a wrapper for transitions
+ * @param string $s a float point number in second(s) - default .6s
+ * */
+@mixin easeOut($s: .6s) {
+  transition: all #{$s} cubic-bezier(0.23, 1, 0.32, 1);
+}
+/** 
+ * media query break wrapper
+ * @param string $width - 768px
+ * */
+@mixin break ($width: 768px){
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}
+/** 
+ * wrapper to export common browser prefix for backward compatability
+ * @param array $declarations the list of styles
+ * @param list $prefixes list of prefixes to use
+ * */
+@mixin prefix($declarations, $prefixes: ()) {
+  @each $property, $value in $declarations {
+    @each $prefix in $prefixes {
+      #{'-' + $prefix + '-' + $property}: $value;
+    }
+
+    // Output standard non-prefixed declaration
+    #{$property}: $value;
+  }
+}
+/** 
+ * wrapper for keyframe animations
+ * @param string name of the animation
+ * */
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+      @content;
+  }
+  @-moz-keyframes #{$name} {
+      @content;
+  }
+  @-ms-keyframes #{$name} {
+      @content;
+  }
+  @keyframes #{$name} {
+      @content;
+  }
+}
+/** 
+ * force not allow mouse selection of wrapped text
+ * */
+@mixin noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

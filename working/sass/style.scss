@@ -1,0 +1,32 @@
+@import "mixins";
+
+body {
+	background: blue;
+	font-family: Helvetica;
+}
+#container {
+	width: 30vw;
+	margin: 10vh auto;
+	background: #fff;
+	padding: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 5px 10px #000;
+}
+input {
+	float: left;
+	font-size: 20px;
+	width: 80%;
+}
+button {
+	float: left;
+    background: red;
+    color: yellow;
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 2px;
+}
+.clearfix:after {
+	content: ' ';
+	clear: both;
+	display: block;
+}
