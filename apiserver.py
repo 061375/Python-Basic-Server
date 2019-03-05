@@ -18,6 +18,16 @@ class ApiError(Exception):
     def __str__(self):
         return f"ApiError({self.code}, {self.msg})"
 
+class UserErrors():
+    def __init__(self):
+        self.errors = []
+    def setError(self,error):
+        self.errors.append(error)
+    def getErrors(self):
+        return self.errors
+    def clearErrors(self):
+        self.errors = []
+
 def ApiRoute(path):
     def outer(func):
         if not hasattr(func, "_routes"):
@@ -117,7 +127,10 @@ class ApiHandler(BaseHTTPRequestHandler):
             else:
                 params = {}
 
-            info.update(params)
+            if(info==None):
+                info = params
+            else:
+                info.update(params)
 
             if handler:
                 try:
@@ -159,7 +172,8 @@ class MyServer(ApiServer):
                 _return = {}
                 if False == result:
                     _return["success"] = 0
-                    _return["error"] = "An error occured"
+                    _return["errors"] = userErrors.getErrors()
+                    userErrors.clearErrors()
                 else:
                     _return["success"] = 1
                     _return["message"] = result
@@ -198,7 +212,12 @@ def GetFile(path):
 '''
 
 def test(req):
+    if req.get("name")==None:
+        userErrors.setError("name is a required field")
+        return False
     return "Hello "+req["name"][0]+", this response came for the server"
+
+userErrors = UserErrors()
 
 MyServer("127.0.0.1",35730).serve_forever()
 
