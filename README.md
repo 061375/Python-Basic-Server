@@ -34,4 +34,12 @@ $(document).ready(function(){
 ```
 On error an alert will be thrown with the response from the server
 
+### Starting the server
+Currently the server is set to port 35730
+
+You can change this in apiserver.py on the last line:
+```python
+MyServer("127.0.0.1",35730).serve_forever()
+```
+
 ![alt text](https://raw.githubusercontent.com/061375/Python-Basic-Server/master/images/p-server-screen.jpg)
