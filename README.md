@@ -14,6 +14,8 @@ The Python side can grab and export an HTML file from a folder to server however
 
 The CSS and JS files are loaded through their own routes. There can be only one of each currently so it makes sense to use Grunt to combine all your files (included).
 
+* NOTE * - Compass is also included to compile SASS.
+
 The program allows for GET and POST however currently I have it setup so that GET is simply used to call the methid and POST is for the actual data.
 
 Example:
