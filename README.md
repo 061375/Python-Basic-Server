@@ -1,7 +1,9 @@
 # Python-Basic-Server
 This is a useful tool I think for Kiosk applications on Raspberry PI
 
-Expanded from:
+### Requires Python 3.7+
+
+###Expanded from:
 https://gist.github.com/earonesty/ab07b4c0fea2c226e75b3d538cc0dc55
 
 This tool sets up a basic framework for a web application one might use on a small device like a Raspberry PI.
