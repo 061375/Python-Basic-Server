@@ -14,6 +14,8 @@ The Python side can grab and export an HTML file from a folder to server however
 
 The CSS and JS files are loaded through their own routes. There can be only one of each currently so it makes sense to use Grunt to combine all your files (included).
 
+* NOTE * - Compass is also included to compile SASS.
+
 The program allows for GET and POST however currently I have it setup so that GET is simply used to call the methid and POST is for the actual data.
 
 Example:
@@ -34,4 +36,12 @@ $(document).ready(function(){
 ```
 On error an alert will be thrown with the response from the server
 
+### Starting the server
+Currently the server is set to port 35730
 
+You can change this in apiserver.py on the last line:
+```python
+MyServer("127.0.0.1",35730).serve_forever()
+```
+
+![alt text](https://raw.githubusercontent.com/061375/Python-Basic-Server/master/images/p-server-screen.jpg)
