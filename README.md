@@ -45,3 +45,7 @@ MyServer("127.0.0.1",35730).serve_forever()
 ```
 
 ![alt text](https://raw.githubusercontent.com/061375/Python-Basic-Server/master/images/p-server-screen.jpg)
+
+Here's a basic rundown of the events. Note that the CSS and Javascript load via the AJAX portal by essentially the same method as any other request however, these special cases can be called from HTML through the /js and /css routes.
+
+![alt text[(https://raw.githubusercontent.com/061375/Python-Basic-Server/master/images/p-server-flow.png)
