@@ -5,9 +5,15 @@ import urllib.parse as urlparse
 import threading
 import logging
 
+# @var {String}
 log = logging.getLogger(__name__)
+# @var {String}
+responseHeader = "text/html"
+# @var {Boolean}
+responseByteBool = False
+# @var {String}
+assetsPath = '/_/assets/'
 
-responseHeader ="text/html"
 
 class ApiError(Exception):
     def __init__(self, code, msg=None, desc=None):
@@ -32,7 +38,7 @@ def ApiRoute(path):
     def outer(func):
         if not hasattr(func, "_routes"):
             setattr(func, "_routes", [])
-        func._routes += [path]
+        func._routes = [path]
         return func
     return outer
 
@@ -91,7 +97,7 @@ class ApiServer(HTTPServer):
         self.socket.close()
 
 class ApiHandler(BaseHTTPRequestHandler):
-    #@var {dict}
+    # @var {dict}
     _routes={}
     '''
 
@@ -116,7 +122,8 @@ class ApiHandler(BaseHTTPRequestHandler):
     '''
     def do_XXX(self, info={}):
         global responseHeader
-    
+        global responseByteBool
+
         try:
             url=urlparse.urlparse(self.path)
 
@@ -126,12 +133,13 @@ class ApiHandler(BaseHTTPRequestHandler):
                 params = urlparse.parse_qs(url.query)
             else:
                 params = {}
-
+            '''
             if(info==None):
                 info = params
             else:
                 info.update(params)
-
+            '''
+            info = params
             if handler:
                 try:
                     response=handler(info)
@@ -140,7 +148,13 @@ class ApiHandler(BaseHTTPRequestHandler):
                         response = ""
                     if type(response) is dict:
                         response = json.dumps(response)
-                    response = bytes(str(response),"utf-8")
+                    if True == responseByteBool:
+                        self.send_header("Accept-Ranges", "bytes")
+                    else:
+                        response = bytes(str(response),"utf-8")
+
+                    responseByteBool = False
+
                     self.send_header("Content-Length", len(response))
                     self.send_header("Content-Type", responseHeader)
                     self.end_headers()
@@ -190,19 +204,67 @@ class MyServer(ApiServer):
         def getjs(req):
             global responseHeader
             responseHeader="application/javascript"
-            return GetFile('/js/script.js')
+            file = assetsPath+"js/"
+            if 'file' in req:
+                file = file + req["file"][0]
+            return GetFile(file)
         @ApiRoute("/css")
         def getcss(req):
             global responseHeader
             responseHeader="text/css"
-            return GetFile('/css/style.css')
+            file = assetsPath + "css/"
+            if 'file' in req:
+                file = file + req["file"][0]
+            return GetFile(file)
+        @ApiRoute("/img")
+        def getimg(req):
+            global responseHeader
+            global responseByteBool
+            responseByteBool = True
+
+            file = assetsPath + "images/"
+            if 'file' in req:
+                file = file + req["file"][0]
+                ext = os.path.splitext(req["file"][0])[1]
+                if ext == ".jpg":
+                    responseHeader="image/jpeg"
+                elif ext == ".jpeg":
+                    responseHeader="image/jpeg"
+                elif ext == ".gif":
+                    responseHeader="image/gif"
+                elif ext == ".png":
+                    responseHeader="image/png"
+            return GetFile(file,True)
+        @ApiRoute("/font")
+        def getfont(req):
+            global responseHeader
+            global responseByteBool
+            responseByteBool = True
+
+            responseHeader="text/plain"
+            file = assetsPath + "font/"
+            if 'file' in req:
+                file = file + req["file"][0]
+            return GetFile(file,True)
+        @ApiRoute("/file")
+        def getfile(req):
+            global responseHeader
+            responseHeader="text/plain"
+            file = "/"
+            if 'file' in req:
+                file = file + req["file"][0]
+            return GetFile(file)
 '''
     @param {string}
 '''
-def GetFile(path):
+def GetFile(path, binary = False):
+    mode = 'r'
+    if True == binary:
+        mode = 'rb'
+
     path = os.getcwd()+path
     if os.path.isfile(path):
-        file = open(path,'r')
+        file = open(path,mode)
         return file.read()
     else:
         raise ApiError(404)
